@@ -1,0 +1,4 @@
+export const AUTH_USERS_SERVICE = Symbol('AUTH_USERS_SERVICE');
+export const AUTH_RESET_TOKEN_STORE = Symbol('AUTH_RESET_TOKEN_STORE');
+export const AUTH_MAILER = Symbol('AUTH_MAILER');
+export const AUTH_MODULE_OPTIONS = Symbol('AUTH_MODULE_OPTIONS');
