@@ -1,13 +1,10 @@
 module.exports = {
-    rootDir: '../..',
+    rootDir: __dirname,
+    preset: 'ts-jest',
     testEnvironment: 'node',
-    moduleFileExtensions: ['js', 'json', 'ts'],
-    transform: {
-        '^.+\\.(t|j)s$': 'ts-jest'
-    },
-    testRegex: 'packages/nest-auth-kit/test/.*\\.e2e-spec\\.ts$',
+    moduleFileExtensions: ['ts', 'js', 'json'],
+    testMatch: ['<rootDir>/test/**/*.spec.ts', '<rootDir>/test/**/*.e2e-spec.ts'],
     moduleNameMapper: {
-        '@/(.*)': '<rootDir>/src/$1',
-        '^nest-auth-kit(.*)$': '<rootDir>/packages/nest-auth-kit/src$1'
+        '@/(.*)': '<rootDir>/src/$1'
     }
 };
