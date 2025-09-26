@@ -25,9 +25,10 @@ let LocalStrategy = class LocalStrategy extends (0, passport_1.PassportStrategy)
         this.auth = auth;
     }
     async validate(req, username, password) {
+        var _a, _b, _c;
         const body = (req && req.body) || {};
-        const identifier = body.identifier ?? body.email ?? body.username ?? username;
-        return this.auth.validateUser(String(identifier ?? ''), password);
+        const identifier = (_c = (_b = (_a = body.identifier) !== null && _a !== void 0 ? _a : body.email) !== null && _b !== void 0 ? _b : body.username) !== null && _c !== void 0 ? _c : username;
+        return this.auth.validateUser(String(identifier !== null && identifier !== void 0 ? identifier : ''), password);
     }
 };
 exports.LocalStrategy = LocalStrategy;

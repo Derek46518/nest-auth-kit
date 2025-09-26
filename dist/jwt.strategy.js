@@ -18,11 +18,12 @@ const passport_1 = require("@nestjs/passport");
 const passport_jwt_1 = require("passport-jwt");
 const tokens_1 = require("./internal/tokens");
 function cookieExtractorFactory(cookieName) {
-    return (req) => req.cookies?.[cookieName] ?? null;
+    return (req) => { var _a, _b; return (_b = (_a = req.cookies) === null || _a === void 0 ? void 0 : _a[cookieName]) !== null && _b !== void 0 ? _b : null; };
 }
 let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
     constructor(opts) {
-        const cookieName = opts.cookies?.cookieName ?? 'accessToken';
+        var _a, _b;
+        const cookieName = (_b = (_a = opts.cookies) === null || _a === void 0 ? void 0 : _a.cookieName) !== null && _b !== void 0 ? _b : 'accessToken';
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromExtractors([
                 cookieExtractorFactory(cookieName),
@@ -34,10 +35,11 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
         this.opts = opts;
     }
     async validate(payload) {
+        var _a;
         return {
             userId: payload.sub,
             username: payload.username,
-            role: payload.role ?? null
+            role: (_a = payload.role) !== null && _a !== void 0 ? _a : null
         };
     }
 };

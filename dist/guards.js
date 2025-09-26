@@ -29,14 +29,16 @@ exports.GoogleAuthGuard = GoogleAuthGuard = __decorate([
 ], GoogleAuthGuard);
 let GoogleAuthWithStateGuard = class GoogleAuthWithStateGuard extends (0, passport_1.AuthGuard)('google') {
     getAuthenticateOptions(context) {
+        var _a;
         const req = context.switchToHttp().getRequest();
-        const redirect = typeof req.query?.redirect === 'string' ? req.query.redirect : undefined;
+        const redirect = typeof ((_a = req.query) === null || _a === void 0 ? void 0 : _a.redirect) === 'string' ? req.query.redirect : undefined;
         let state;
         if (redirect) {
             try {
                 state = Buffer.from(JSON.stringify({ redirect }), 'utf8').toString('base64url');
             }
             catch {
+                // ignore encoding errors
             }
         }
         return state ? { state } : {};

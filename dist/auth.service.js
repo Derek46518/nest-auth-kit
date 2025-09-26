@@ -38,10 +38,11 @@ let AuthService = class AuthService {
         return user;
     }
     async issueAccessToken(user) {
+        var _a;
         return this.jwt.signAsync({
             sub: user.id,
             username: user.username,
-            role: user.role ?? null
+            role: (_a = user.role) !== null && _a !== void 0 ? _a : null
         });
     }
     async register(dto) {
@@ -55,8 +56,9 @@ let AuthService = class AuthService {
         return { user, accessToken };
     }
     async loginWithGoogleProfile(profile) {
-        const email = profile.emails?.[0]?.value;
-        const displayName = profile.displayName || profile.name?.givenName || 'user';
+        var _a, _b, _c;
+        const email = (_b = (_a = profile.emails) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.value;
+        const displayName = profile.displayName || ((_c = profile.name) === null || _c === void 0 ? void 0 : _c.givenName) || 'user';
         if (!email)
             throw new common_1.UnauthorizedException('Google account has no email');
         const existed = await this.users.findByEmail(email);
@@ -76,6 +78,7 @@ let AuthService = class AuthService {
         return { user, accessToken };
     }
     async createPasswordResetToken(email) {
+        var _a, _b;
         const user = await this.users.findByEmail(email);
         if (!user)
             return { ok: true };
@@ -83,7 +86,7 @@ let AuthService = class AuthService {
         const tokenHash = this.hashToken(token);
         const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
         await this.resetStore.saveToken(user.id, tokenHash, expiresAt);
-        const resetBase = this.opts.frontend?.resetUrlBase ?? '';
+        const resetBase = (_b = (_a = this.opts.frontend) === null || _a === void 0 ? void 0 : _a.resetUrlBase) !== null && _b !== void 0 ? _b : '';
         const link = resetBase ? `${resetBase}${token}` : token;
         if (this.mailer && this.mailer.isEnabled() && user.email) {
             const subject = 'Password Reset';
@@ -92,6 +95,7 @@ let AuthService = class AuthService {
                 await this.mailer.send(user.email, subject, html, `Reset link: ${link}`);
             }
             catch {
+                // swallow mailer errors to avoid leaking user existence
             }
         }
         return { ok: true };

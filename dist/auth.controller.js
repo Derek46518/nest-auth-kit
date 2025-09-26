@@ -26,18 +26,19 @@ const guards_1 = require("./guards");
 const tokens_1 = require("./internal/tokens");
 let AuthController = class AuthController {
     constructor(auth, opts) {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         this.auth = auth;
         this.opts = opts;
-        const cookies = opts.cookies ?? {};
-        this.useCookie = cookies.useCookies ?? true;
-        this.cookieName = cookies.cookieName ?? 'accessToken';
-        this.csrfCookie = cookies.csrfCookieName ?? 'csrfToken';
-        this.csrfHeader = cookies.csrfHeaderName ?? 'x-csrf-token';
+        const cookies = (_a = opts.cookies) !== null && _a !== void 0 ? _a : {};
+        this.useCookie = (_b = cookies.useCookies) !== null && _b !== void 0 ? _b : true;
+        this.cookieName = (_c = cookies.cookieName) !== null && _c !== void 0 ? _c : 'accessToken';
+        this.csrfCookie = (_d = cookies.csrfCookieName) !== null && _d !== void 0 ? _d : 'csrfToken';
+        this.csrfHeader = (_e = cookies.csrfHeaderName) !== null && _e !== void 0 ? _e : 'x-csrf-token';
         this.cookieDomain = cookies.cookieDomain;
-        const crossSite = cookies.crossSite ?? false;
+        const crossSite = (_f = cookies.crossSite) !== null && _f !== void 0 ? _f : false;
         this.isCrossSite = crossSite;
-        this.secureCookies = cookies.secureCookies ?? crossSite;
-        this.maxAge = cookies.maxAgeMs ?? 60 * 60 * 1000;
+        this.secureCookies = (_g = cookies.secureCookies) !== null && _g !== void 0 ? _g : crossSite;
+        this.maxAge = (_h = cookies.maxAgeMs) !== null && _h !== void 0 ? _h : 60 * 60 * 1000;
     }
     accessTokenCookieOptions() {
         return {
@@ -76,14 +77,15 @@ let AuthController = class AuthController {
         res.clearCookie(this.csrfCookie, opts);
     }
     buildRedirectUrl(state) {
-        const fallback = this.opts.frontend?.defaultRedirectUrl ?? 'http://localhost:3000';
-        const origins = this.opts.frontend?.origins ?? [];
+        var _a, _b, _c, _d;
+        const fallback = (_b = (_a = this.opts.frontend) === null || _a === void 0 ? void 0 : _a.defaultRedirectUrl) !== null && _b !== void 0 ? _b : 'http://localhost:3000';
+        const origins = (_d = (_c = this.opts.frontend) === null || _c === void 0 ? void 0 : _c.origins) !== null && _d !== void 0 ? _d : [];
         const allowed = origins.length ? origins : [fallback];
         if (!state)
             return fallback;
         try {
             const parsed = JSON.parse(Buffer.from(state, 'base64url').toString('utf8'));
-            const url = parsed?.redirect;
+            const url = parsed === null || parsed === void 0 ? void 0 : parsed.redirect;
             if (!url)
                 return fallback;
             const target = new URL(url);
@@ -103,11 +105,12 @@ let AuthController = class AuthController {
         }
     }
     async login(res, req) {
+        var _a;
         const user = req.user;
-        const accessToken = await this.auth.issueAccessToken({ id: user.id, username: user.username, role: user.role ?? null });
+        const accessToken = await this.auth.issueAccessToken({ id: user.id, username: user.username, role: (_a = user.role) !== null && _a !== void 0 ? _a : null });
         const csrfToken = this.useCookie ? this.setAuthCookies(res, accessToken) : null;
         if (!this.useCookie) {
-            res.setHeader(this.csrfHeader, csrfToken ?? '');
+            res.setHeader(this.csrfHeader, csrfToken !== null && csrfToken !== void 0 ? csrfToken : '');
         }
         return { user, accessToken, csrfToken };
     }
@@ -115,7 +118,7 @@ let AuthController = class AuthController {
         const { user, accessToken } = await this.auth.register(dto);
         const csrfToken = this.useCookie ? this.setAuthCookies(res, accessToken) : null;
         if (!this.useCookie) {
-            res.setHeader(this.csrfHeader, csrfToken ?? '');
+            res.setHeader(this.csrfHeader, csrfToken !== null && csrfToken !== void 0 ? csrfToken : '');
         }
         return { user, accessToken, csrfToken };
     }
@@ -132,12 +135,14 @@ let AuthController = class AuthController {
         return { csrfToken: token };
     }
     googleAuth() {
+        // handled by passport
     }
     async googleCallback(req, res) {
+        var _a, _b;
         const user = req.user;
-        const accessToken = await this.auth.issueAccessToken({ id: user.id, username: user.username, role: user.role ?? null });
+        const accessToken = await this.auth.issueAccessToken({ id: user.id, username: user.username, role: (_a = user.role) !== null && _a !== void 0 ? _a : null });
         const csrfToken = this.useCookie ? this.setAuthCookies(res, accessToken) : null;
-        const state = typeof req.query?.state === 'string' ? req.query.state : undefined;
+        const state = typeof ((_b = req.query) === null || _b === void 0 ? void 0 : _b.state) === 'string' ? req.query.state : undefined;
         let redirectUrl = this.buildRedirectUrl(state);
         if (!this.useCookie) {
             try {

@@ -20,7 +20,8 @@ const auth_service_1 = require("./auth.service");
 const tokens_1 = require("./internal/tokens");
 let GoogleStrategy = class GoogleStrategy extends (0, passport_1.PassportStrategy)(passport_google_oauth20_1.Strategy, 'google') {
     constructor(opts, auth) {
-        const google = opts.google ?? {
+        var _a, _b;
+        const google = (_a = opts.google) !== null && _a !== void 0 ? _a : {
             clientID: 'missing',
             clientSecret: 'missing',
             callbackURL: 'http://localhost:3000/auth/google/callback'
@@ -29,7 +30,7 @@ let GoogleStrategy = class GoogleStrategy extends (0, passport_1.PassportStrateg
             clientID: google.clientID || 'missing',
             clientSecret: google.clientSecret || 'missing',
             callbackURL: google.callbackURL || 'http://localhost:3000/auth/google/callback',
-            scope: google.scope ?? ['profile', 'email']
+            scope: (_b = google.scope) !== null && _b !== void 0 ? _b : ['profile', 'email']
         });
         this.auth = auth;
     }

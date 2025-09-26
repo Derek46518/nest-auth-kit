@@ -20,16 +20,18 @@ const csrf_middleware_1 = require("./csrf.middleware");
 const tokens_1 = require("./internal/tokens");
 let AuthModule = AuthModule_1 = class AuthModule {
     static register(options) {
+        var _a;
         const optionsProvider = { provide: tokens_1.AUTH_MODULE_OPTIONS, useValue: options };
-        return this.buildModule(optionsProvider, options.imports ?? []);
+        return this.buildModule(optionsProvider, (_a = options.imports) !== null && _a !== void 0 ? _a : []);
     }
     static registerAsync(options) {
+        var _a, _b;
         const optionsProvider = {
             provide: tokens_1.AUTH_MODULE_OPTIONS,
             useFactory: options.useFactory,
-            inject: options.inject ?? []
+            inject: (_a = options.inject) !== null && _a !== void 0 ? _a : []
         };
-        return this.buildModule(optionsProvider, options.imports ?? []);
+        return this.buildModule(optionsProvider, (_b = options.imports) !== null && _b !== void 0 ? _b : []);
     }
     static buildModule(optionsProvider, extraImports) {
         class AuthOptionsHolderModule {
@@ -41,10 +43,13 @@ let AuthModule = AuthModule_1 = class AuthModule {
         };
         const jwtModule = jwt_1.JwtModule.registerAsync({
             imports: [optionsModule],
-            useFactory: (opts) => ({
-                secret: opts.jwt.secret,
-                signOptions: { expiresIn: opts.jwt.expiresIn ?? '15m' }
-            }),
+            useFactory: (opts) => {
+                var _a;
+                return ({
+                    secret: opts.jwt.secret,
+                    signOptions: { expiresIn: (_a = opts.jwt.expiresIn) !== null && _a !== void 0 ? _a : '15m' }
+                });
+            },
             inject: [tokens_1.AUTH_MODULE_OPTIONS]
         });
         const coreProviders = [

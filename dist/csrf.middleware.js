@@ -20,7 +20,8 @@ function fallbackOrigins() {
     return [/^https?:\/\/localhost:\d+$/, /^https?:\/\/127\.0\.0\.1:\d+$/];
 }
 function buildAllowed(opts) {
-    const configured = opts.frontend?.origins ?? [];
+    var _a, _b;
+    const configured = (_b = (_a = opts.frontend) === null || _a === void 0 ? void 0 : _a.origins) !== null && _b !== void 0 ? _b : [];
     if (!configured.length)
         return fallbackOrigins();
     const res = [];
@@ -32,15 +33,17 @@ function buildAllowed(opts) {
             res.push(new RegExp(`^${proto}:\/\/${host}$`));
         }
         catch {
+            // ignore invalid entries
         }
     }
     return res.length ? res : fallbackOrigins();
 }
 function readCookies(req) {
+    var _a;
     const existing = req.cookies;
     if (existing && typeof existing === 'object')
         return existing;
-    const header = req.headers?.cookie;
+    const header = (_a = req.headers) === null || _a === void 0 ? void 0 : _a.cookie;
     if (!header)
         return {};
     const cookies = {};
@@ -52,17 +55,18 @@ function readCookies(req) {
         const value = rest.join('=').trim();
         if (!key)
             continue;
-        cookies[key] = decodeURIComponent(value ?? '');
+        cookies[key] = decodeURIComponent(value !== null && value !== void 0 ? value : '');
     }
     req.cookies = cookies;
     return cookies;
 }
 let CsrfMiddleware = class CsrfMiddleware {
     constructor(opts) {
+        var _a, _b, _c, _d;
         this.opts = opts;
         this.allowed = buildAllowed(opts);
-        this.csrfHeader = opts.cookies?.csrfHeaderName ?? 'x-csrf-token';
-        this.csrfCookie = opts.cookies?.csrfCookieName ?? 'csrfToken';
+        this.csrfHeader = (_b = (_a = opts.cookies) === null || _a === void 0 ? void 0 : _a.csrfHeaderName) !== null && _b !== void 0 ? _b : 'x-csrf-token';
+        this.csrfCookie = (_d = (_c = opts.cookies) === null || _c === void 0 ? void 0 : _c.csrfCookieName) !== null && _d !== void 0 ? _d : 'csrfToken';
     }
     use(req, _res, next) {
         if (SAFE.has(req.method))
