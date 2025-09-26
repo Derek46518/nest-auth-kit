@@ -13,7 +13,7 @@ import {
     AUTH_USERS_SERVICE,
     AUTH_RESET_TOKEN_STORE,
     AUTH_MAILER
-} from '@derek/nest-auth-kit';
+} from '@derek46518/nest-auth-kit';
 
 class FakeUsersServiceAdapter implements AuthUsersService {
     private users = new Map<number, { id: number; username: string; email: string; role: string; password: string }>();

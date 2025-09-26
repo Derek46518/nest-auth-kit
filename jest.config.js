@@ -8,7 +8,7 @@ module.exports = {
     testMatch: ['<rootDir>/test/**/*.spec.ts', '<rootDir>/test/**/*.e2e-spec.ts'],
     moduleNameMapper: {
         '@/(.*)': '<rootDir>/src/$1',
-        '^@derek/nest-auth-kit$': '<rootDir>/src',
-        '^@derek/nest-auth-kit/(.*)$': '<rootDir>/src/$1'
+        '^@derek46518/nest-auth-kit$': '<rootDir>/src',
+        '^@derek46518/nest-auth-kit/(.*)$': '<rootDir>/src/$1'
     }
 };

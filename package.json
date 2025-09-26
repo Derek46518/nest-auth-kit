@@ -1,5 +1,5 @@
 {
-  "name": "@derek/nest-auth-kit",
+  "name": "@derek46518/nest-auth-kit",
   "version": "0.1.0",
   "description": "Reusable NestJS authentication module with local login, JWT cookies, Google OAuth, and CSRF protection",
   "author": "Derek",

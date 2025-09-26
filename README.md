@@ -1,4 +1,4 @@
-# @derek/nest-auth-kit
+# @derek46518/nest-auth-kit
 
 Reusable NestJS authentication module that bundles:
 
@@ -26,7 +26,7 @@ repository, and mailer implementation.
 ## Installation
 
 ```bash
-npm install @derek/nest-auth-kit passport passport-local passport-jwt passport-google-oauth20
+npm install @derek46518/nest-auth-kit passport passport-local passport-jwt passport-google-oauth20
 ```
 
 The package declares peer dependencies on core NestJS packages (e.g.
