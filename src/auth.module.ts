@@ -1,5 +1,4 @@
 import { DynamicModule, Module, Provider } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
@@ -51,31 +50,7 @@ export class AuthModule {
       LocalStrategy,
       JwtStrategy,
       GoogleStrategy,
-      CsrfMiddleware,
-      {
-        provide: AUTH_USERS_SERVICE,
-        useFactory: (moduleRef: ModuleRef, opts: AuthModuleOptions) =>
-          moduleRef.get(opts.userServiceToken as any, { strict: false }),
-        inject: [ModuleRef, AUTH_MODULE_OPTIONS]
-      },
-      {
-        provide: AUTH_RESET_TOKEN_STORE,
-        useFactory: (moduleRef: ModuleRef, opts: AuthModuleOptions) =>
-          moduleRef.get(opts.resetTokenStoreToken as any, { strict: false }),
-        inject: [ModuleRef, AUTH_MODULE_OPTIONS]
-      },
-      {
-        provide: AUTH_MAILER,
-        useFactory: (moduleRef: ModuleRef, opts: AuthModuleOptions) => {
-          if (!opts.mailerToken) return null;
-          try {
-            return moduleRef.get(opts.mailerToken as any, { strict: false });
-          } catch {
-            return null;
-          }
-        },
-        inject: [ModuleRef, AUTH_MODULE_OPTIONS]
-      }
+      CsrfMiddleware
     ];
 
     return {
